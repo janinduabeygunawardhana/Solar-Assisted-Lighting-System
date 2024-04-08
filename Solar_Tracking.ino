@@ -4,8 +4,8 @@
 #define ldrPin4 27
 #define referenceLdr 26
 
-#define MY_dirPin 12
-#define MY_stepPin 13
+#define MY_dirPin 25
+#define MY_stepPin 33
 #define MX_dirPin 27
 #define MX_stepPin 14
 #define stepsPerRevolution 200*32
@@ -21,7 +21,8 @@ void setup() {
 void loop() {
   readLDRData();
   findMotorPosition();
-  delay(500);
+  delayMicroseconds(1);
+  
 
 }
 void readLDRData()
@@ -44,11 +45,11 @@ void readLDRData()
  dest[2] = ldrValue3-14;
  dest[3] = ldrValue4; 
 
- for(int i=0;i<5;i++){
-  Serial.print(dest[i]);
-  Serial.print("\t");
-  }
-  Serial.println();
+// for(int i=0;i<5;i++){
+//  Serial.print(dest[i]);
+//  Serial.print("\t");
+//  }
+//  Serial.println();
 
 }
 
@@ -84,17 +85,27 @@ void findMotorPosition() {
  int LeftRightABS = abs(left-rigth);
  int UpDownABS = abs(up-down);
  
- Serial.print("Reference LDR -> ");
- Serial.println(refLDR);
- Serial.print("Left -> ");
- Serial.println(left);
- Serial.print("Right -> ");
- Serial.println(rigth);
- Serial.print("Up -> ");
- Serial.println(up);
- Serial.print("Down -> ");
- Serial.println(down);
- if (left > rigth && LeftRightABS >= thresholdLDR) {
+// Serial.print("Reference LDR -> ");
+// Serial.println(refLDR);
+// Serial.print("Left -> ");
+// Serial.println(left);
+// Serial.print("Right -> ");
+// Serial.println(rigth);
+// Serial.print("Up -> ");
+// Serial.println(up);
+// Serial.print("Down -> ");
+// Serial.println(down);
+ 
+ if (up > down && UpDownABS >= thresholdLDR ) {
+  Serial.println("Motor Y ClockWise");
+  MY_CW();
+
+ }
+ else if (up <= down && UpDownABS >= thresholdLDR) {
+  Serial.println("Motor Y Counter ClockWise");
+  MY_CCW();
+ }
+ else if (left > rigth && LeftRightABS >= thresholdLDR) {
   Serial.println("Motor X ClockWise");
   MX_CW();
  }
@@ -103,14 +114,6 @@ else if (left <= rigth && LeftRightABS >= thresholdLDR)
   Serial.println("Motor X Counter ClockWise");
   MX_CCW();
 
- }
- else if (up > down && UpDownABS >= thresholdLDR ) {
-  Serial.println("Motor Y ClockWise");
-  MY_CW();
-
- }
- else if (up <= down && UpDownABS >= thresholdLDR) {
-  MY_CCW()
  }
 
  else {
@@ -127,17 +130,17 @@ if(UpDownABS <= thresholdLDR && LeftRightABS <= thresholdLDR) {
 void YMotor_rotate(){
   for (int i = 0; i < stepsPerRevolution / 1024; i++) {
     digitalWrite(MY_stepPin, HIGH);
-    delayMicroseconds(3000);
+    delayMicroseconds(2000);
     digitalWrite(MY_stepPin, LOW);
-    delayMicroseconds(3000);
+    delayMicroseconds(1000);
   }
  }
  void XMotor_rotate(){
   for (int i = 0; i < stepsPerRevolution / 1024; i++) {
     digitalWrite(MX_stepPin, HIGH);
-    delayMicroseconds(3000);
+    delayMicroseconds(2000);
     digitalWrite(MX_stepPin, LOW);
-    delayMicroseconds(3000);
+    delayMicroseconds(1000);
   }
  }
  void MX_CW(){

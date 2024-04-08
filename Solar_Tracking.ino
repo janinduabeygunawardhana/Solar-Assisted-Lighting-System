@@ -102,60 +102,26 @@ class MotorPositionCalculation {
  Serial.print("Down -> ");
  Serial.println(down);
  if (left > rigth && LeftRightABS >= thresholdLDR) {
-// Serial.println("Motor X ClockWise");
-// digitalWrite(MX_dirPin, HIGH); digitalWrite(MY_dirPin,HIGH);
-// // Spin the stepper motor 1 revolution slowly:
-// for (int i = 0; i < stepsPerRevolution / 1024; i++) {
-// // These four lines result in 1 step:
-//digitalWrite(MX_stepPin, HIGH); 
-//digitalWrite(MY_stepPin, HIGH);
-//delayMicroseconds(3000);
-//digitalWrite(MX_stepPin, LOW); 
-//digitalWrite(MY_stepPin, LOW);
-//delayMicroseconds(3000);
-// }
-MX_CW();
-XMotor_rotate();
+  Serial.println("Motor X ClockWise");
+  MX_CW();
+  XMotor_rotate();
  }
 else if (left <= rigth && LeftRightABS >= thresholdLDR) 
 {
- Serial.println("Motor X Counter ClockWise");
- digitalWrite(MX_dirPin, LOW); digitalWrite(MY_dirPin, 
-LOW);
- // Spin the stepper motor 1 revolution slowly:
- for (int i = 0; i < stepsPerRevolution / 1024; i++) {
- // These four lines result in 1 step:
- digitalWrite(MX_stepPin, HIGH); 
-digitalWrite(MY_stepPin, HIGH);
- delayMicroseconds(3000);
- digitalWrite(MX_stepPin, LOW); 
-digitalWrite(MY_stepPin, LOW);
- delayMicroseconds(3000);
- }
+  Serial.println("Motor X Counter ClockWise");
+  MX_CCW();
+  XMotor_rotate();
  }
  else if (up > down && UpDownABS >= thresholdLDR ) {
- Serial.println("Motor Y ClockWise");
- digitalWrite(MY_dirPin, HIGH);
- // Spin the stepper motor 1 revolution slowly:
- for (int i = 0; i < stepsPerRevolution / 1024; i++) {
- // These four lines result in 1 step:
- digitalWrite(MY_stepPin, HIGH);
- delayMicroseconds(3000);
- digitalWrite(MY_stepPin, LOW);
- delayMicroseconds(3000);
- }
+  Serial.println("Motor Y ClockWise");
+  MY_CW();
+  YMotor_rotate();
  }
  else if (up <= down && UpDownABS >= thresholdLDR) {
- Serial.println("Motor Y Counter ClockWise");
- digitalWrite(MY_dirPin, LOW);
- // Spin the stepper motor 1 revolution slowly:
- for (int i = 0; i < stepsPerRevolution / 1024; i++) {
- // These four lines result in 1 step:
- digitalWrite(MY_stepPin, HIGH);
- delayMicroseconds(3000);
- digitalWrite(MY_stepPin, LOW);
- delayMicroseconds(3000);
- } }
+  Serial.println("Motor Y Counter ClockWise");
+  MY_CCW();
+  YMotor_rotate();
+}
  else {
  Serial.println("Stop the Motor!");
  return 1; //Exit from the algorithm.

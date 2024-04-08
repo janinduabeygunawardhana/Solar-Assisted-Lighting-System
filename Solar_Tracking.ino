@@ -1,8 +1,8 @@
-#define ldrPin1 A0
-#define ldrPin2 A1
-#define ldrPin3 A2
-#define ldrPin4 A3
-#define referenceLdr A4
+#define ldrPin1 13
+#define ldrPin2 12
+#define ldrPin3 14
+#define ldrPin4 27
+#define referenceLdr 26
 
 int dest[5];
 void setup() {
@@ -28,14 +28,14 @@ void readLDRData()
  int ldrValue2 = 0;
  int ldrValue3 = 0;
  int ldrValue4 = 0;
- potValue = map(analogRead(referenceLdr),0,1023,0,100);
- ldrValue1 = map(analogRead(ldrPin1),0,1023,0,100);
- ldrValue2 = map(analogRead(ldrPin2),0,1023,0,100);
- ldrValue3 = map(analogRead(ldrPin3),0,1023,0,100);
+ potValue = map(analogRead(referenceLdr),0,4095,0,100);
+ ldrValue1 = map(analogRead(ldrPin1),0,4095,0,100);
+ ldrValue2 = map(analogRead(ldrPin2),0,4095,0,100);
+ ldrValue3 = map(analogRead(ldrPin3),0,4095,0,100);
 // WRITE_PERI_REG(SENS_SAR_READ_CTRL2_REG, reg_b);
 // SET_PERI_REG_MASK(SENS_SAR_READ_CTRL2_REG, 
 //SENS_SAR2_DATA_INV);
- ldrValue4 = map(analogRead(ldrPin4),0,1023,0,100);
+ ldrValue4 = map(analogRead(ldrPin4),0,4095,0,100);
 
  Serial.print(ldrValue1);
  Serial.print("\t");

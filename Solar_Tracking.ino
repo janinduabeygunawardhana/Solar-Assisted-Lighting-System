@@ -104,19 +104,20 @@ int findMotorPosition(int *dest) {
  Serial.print("Down -> ");
  Serial.println(down);
  if (left > rigth && LeftRightABS >= thresholdLDR) {
- Serial.println("Motor X ClockWise");
- digitalWrite(MX_dirPin, HIGH); digitalWrite(MY_dirPin, 
-HIGH);
- // Spin the stepper motor 1 revolution slowly:
- for (int i = 0; i < stepsPerRevolution / 1024; i++) {
- // These four lines result in 1 step:
- digitalWrite(MX_stepPin, HIGH); 
-digitalWrite(MY_stepPin, HIGH);
- delayMicroseconds(3000);
- digitalWrite(MX_stepPin, LOW); 
-digitalWrite(MY_stepPin, LOW);
- delayMicroseconds(3000);
- }
+// Serial.println("Motor X ClockWise");
+// digitalWrite(MX_dirPin, HIGH); digitalWrite(MY_dirPin,HIGH);
+// // Spin the stepper motor 1 revolution slowly:
+// for (int i = 0; i < stepsPerRevolution / 1024; i++) {
+// // These four lines result in 1 step:
+//digitalWrite(MX_stepPin, HIGH); 
+//digitalWrite(MY_stepPin, HIGH);
+//delayMicroseconds(3000);
+//digitalWrite(MX_stepPin, LOW); 
+//digitalWrite(MY_stepPin, LOW);
+//delayMicroseconds(3000);
+// }
+MX_CW();
+XMotor_rotate();
  }
 else if (left <= rigth && LeftRightABS >= thresholdLDR) 
 {
@@ -169,4 +170,37 @@ thresholdLDR) {
  }
  return 0;
  } 
+
+ };
+ void YMotor_rotate(){
+  for (int i = 0; i < stepsPerRevolution / 1024; i++) {
+ // These four lines result in 1 step:
+ digitalWrite(MY_stepPin, HIGH);
+ delayMicroseconds(3000);
+ digitalWrite(MY_stepPin, LOW);
+ delayMicroseconds(3000);
+  }
+ }
+ void XMotor_rotate(){
+  for (int i = 0; i < stepsPerRevolution / 1024; i++) {
+ // These four lines result in 1 step:
+ digitalWrite(MX_stepPin, HIGH);
+ delayMicroseconds(3000);
+ digitalWrite(MX_stepPin, LOW);
+ delayMicroseconds(3000);
+  }
+ }
+ void MX_CW(){
+  digitalWrite(MX_dirPin, HIGH);
+  }
+  void MX_CCW(){
+  digitalWrite(MX_dirPin, LOW);
+  }
+  void MY_CW(){
+  digitalWrite(MY_dirPin, HIGH);
+  }
+  void MY_CCW(){
+  digitalWrite(MY_dirPin, LOW);
+  }
+
 MotorPositionCalculation MotorPositionCalculation;

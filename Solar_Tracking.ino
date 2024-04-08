@@ -20,11 +20,7 @@ void setup() {
 
 void loop() {
   readLDRData();
-//  for(int i=0;i<5;i++){
-//    Serial.print(dest[i]);
-//    Serial.print(" ");
-//  }
-//  Serial.println();
+
   delay(500);
 
 }
@@ -39,47 +35,42 @@ void readLDRData()
  ldrValue1 = map(analogRead(ldrPin1),0,4095,0,100);
  ldrValue2 = map(analogRead(ldrPin2),0,4095,0,100);
  ldrValue3 = map(analogRead(ldrPin3),0,4095,0,100);
-// WRITE_PERI_REG(SENS_SAR_READ_CTRL2_REG, reg_b);
-// SET_PERI_REG_MASK(SENS_SAR_READ_CTRL2_REG, 
-//SENS_SAR2_DATA_INV);
  ldrValue4 = map(analogRead(ldrPin4),0,4095,0,100);
 
- Serial.print(ldrValue1);
- Serial.print("\t");
- Serial.print(ldrValue2);
- Serial.print("\t");
- Serial.print(ldrValue3);
- Serial.print("\t");
- Serial.print(ldrValue4);
- Serial.print("\t");
- Serial.println(potValue);
  
- dest[5] = potValue;
+ dest[4] = potValue;
  dest[0] = ldrValue1;
  dest[1] = ldrValue2;
- dest[2] = ldrValue3;
+ dest[2] = ldrValue3-14;
  dest[3] = ldrValue4; 
- //return dest;
+
+ for(int i=0;i<5;i++){
+  Serial.print(dest[i]);
+  Serial.print("\t");
+  }
+  Serial.println();
+
 }
 
 void SerMotorPosition(){
+
+}
+
+void SetMotorPins(){
+  pinMode(MX_stepPin, OUTPUT);
+  pinMode(MX_dirPin, OUTPUT);
+  pinMode(MY_stepPin, OUTPUT);
+  pinMode(MY_dirPin, OUTPUT);
+}
+
+int findMotorPosition(int *dest) {
   int ldr_values[5];
   int refLDR = 0;
   int UL = 0;
   int UR = 0;
   int DL = 0;
-  int DR = 0;
-}
-
-void SetMotorPins(){
- pinMode(MX_stepPin, OUTPUT);
- pinMode(MX_dirPin, OUTPUT);
- pinMode(MY_stepPin, OUTPUT);
- pinMode(MY_dirPin, OUTPUT);
-}
-
-int findMotorPosition(int *dest) {
- refLDR = dest[0];
+  int DR = 0; 
+  refLDR = dest[0];
  UL = dest[1];
  UR = dest[2];
  DL = dest[3];
@@ -120,6 +111,7 @@ else if (left <= rigth && LeftRightABS >= thresholdLDR)
   YMotor_rotate();
  }
  else if (up <= down && UpDownABS >= thresholdLDR) {
+ }
 
  else {
  Serial.println("Stop the Motor!");
@@ -133,8 +125,6 @@ thresholdLDR) {
  }
  return 0;
  } 
-
- };
  void YMotor_rotate(){
   for (int i = 0; i < stepsPerRevolution / 1024; i++) {
  // These four lines result in 1 step:
@@ -165,5 +155,3 @@ thresholdLDR) {
   void MY_CCW(){
   digitalWrite(MY_dirPin, LOW);
   }
-
-MotorPositionCalculation MotorPositionCalculation;

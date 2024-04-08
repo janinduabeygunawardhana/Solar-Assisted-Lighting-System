@@ -4,10 +4,17 @@
 #define ldrPin4 27
 #define referenceLdr 26
 
+#define MY_dirPin 12
+#define MY_stepPin 13
+#define MX_dirPin 27
+#define MX_stepPin 14
+#define stepsPerRevolution 200*32
+#define thresholdError 0.12
+
 int dest[5];
 void setup() {
   Serial.begin(9600);
-  // put your setup code here, to run once:
+  SetMotorPins();
 
 }
 
@@ -55,28 +62,23 @@ void readLDRData()
  //return dest;
 }
 
-class MotorPositionCalculation {
- private:
- int ldr_values[5];
- int refLDR = 0;
- int UL = 0;
- int UR = 0;
- int DL = 0;
- int DR = 0;
-#define MY_dirPin 12
-#define MY_stepPin 13
-#define MX_dirPin 27
-#define MX_stepPin 14
-#define stepsPerRevolution 200*32
-#define thresholdError 0.12
- public:
- void MotorPositionCalculationSetup() {
+void SerMotorPosition(){
+  int ldr_values[5];
+  int refLDR = 0;
+  int UL = 0;
+  int UR = 0;
+  int DL = 0;
+  int DR = 0;
+}
+
+void SetMotorPins(){
  pinMode(MX_stepPin, OUTPUT);
  pinMode(MX_dirPin, OUTPUT);
  pinMode(MY_stepPin, OUTPUT);
  pinMode(MY_dirPin, OUTPUT);
 }
- int findMotorPosition(int *dest) {
+
+int findMotorPosition(int *dest) {
  refLDR = dest[0];
  UL = dest[1];
  UR = dest[2];
@@ -118,10 +120,7 @@ else if (left <= rigth && LeftRightABS >= thresholdLDR)
   YMotor_rotate();
  }
  else if (up <= down && UpDownABS >= thresholdLDR) {
-  Serial.println("Motor Y Counter ClockWise");
-  MY_CCW();
-  YMotor_rotate();
-}
+
  else {
  Serial.println("Stop the Motor!");
  return 1; //Exit from the algorithm.
@@ -134,6 +133,7 @@ thresholdLDR) {
  }
  return 0;
  } 
+
  };
  void YMotor_rotate(){
   for (int i = 0; i < stepsPerRevolution / 1024; i++) {
@@ -165,4 +165,5 @@ thresholdLDR) {
   void MY_CCW(){
   digitalWrite(MY_dirPin, LOW);
   }
+
 MotorPositionCalculation MotorPositionCalculation;
